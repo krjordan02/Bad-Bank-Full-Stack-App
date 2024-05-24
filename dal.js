@@ -9,6 +9,7 @@ const client = new MongoClient(url);
   //connect to client and 'myProject' db
   await client.connect();
   db = client.db('myProject');
+  console.log('Connected successfully to server')
 })();
 
 function create(name, email, password){
@@ -32,12 +33,17 @@ function create(name, email, password){
 function all(){
   return new Promise((resolve, reject) => {
     (async ()=> {
-      const customer = await db
+      try{
+        const customers = await db
         .collection('users')
-        .find({})
-        .toArray(function(err, docs){
-          err ? reject(err) : resolve(docs);
-        })
+        .find()
+        .toArray();
+        resolve(customers);
+      }catch{
+        reject('Failed to get documents!')
+      }
+      
+        
       
     })()
   })

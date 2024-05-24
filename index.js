@@ -20,8 +20,8 @@ app.get('/account/create/:name/:email/:password', (req,res)=>{
 app.get('/account/all', (req,res)=>{
   dal.all()
   .then((docs) => {
-    console.log(docs);
-    res.send(docs);
+    console.log('Collection: ' + JSON.stringify(docs));
+    res.send('Collection: ' + JSON.stringify(docs));
   })
 });
 
