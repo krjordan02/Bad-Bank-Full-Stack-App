@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient} = require("mongodb");
 const url = 'mongodb://localhost:27017/';
 
 //create mongo client
@@ -10,7 +10,7 @@ async function run(){
     await client.connect();
 
     // Connect to the "test project" database and access its "customers" collection
-    const dbName = "testProject";
+    const dbName = "mytProject";
     const db = client.db(dbName);
     var collection = db.collection('customers');
 
