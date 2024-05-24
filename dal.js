@@ -20,7 +20,7 @@ function create(name, email, password){
         let insert = collection.insertOne(doc);
         resolve(insert);
       }catch{
-        reject('Failed to insert document');
+        reject('Failed to insert document!');
       }
       
       

@@ -14,7 +14,7 @@ app.get('/account/create/:name/:email/:password', (req,res)=>{
     console.log(user);
     res.send(user);
   })
-  //res.send('what')
+  //res.send('what!')
 });
 
 app.get('/account/all', (req,res)=>{
