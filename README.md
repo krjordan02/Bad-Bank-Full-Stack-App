@@ -15,7 +15,7 @@ This app was built for an assignment by MIT xPro, designed to improve my skills 
 5. The project will then launch in your browser.
 6. (Public URL will soon be uploaded).
 
-<img src="BBSS.jpeg" width="400px"/>
+<img src="public/BBSS.jpeg" width="400px"/>
 
 ## Stack
 
