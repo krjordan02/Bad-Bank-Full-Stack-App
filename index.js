@@ -1,16 +1,17 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const cors = require('cors')
-const dal = require('./dal.js')
+const cors = require('cors');
+const dal = require('./dal.js');
+const auth = require('./auth.js');
 
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../src')));
 app.use(cors());
 //var user = React.useState();
 
-app.get('/account/create/:uri/:name/:email/:password', (req,res)=>{
-  dal.create(req.params.uri, req.params.name, req.params.email, req.params.password)
+app.get('/account/create/:uid/:name/:email/:password', (req,res)=>{
+  dal.create(req.params.uid, req.params.name, req.params.email, req.params.password)
   .then((user) => {
     console.log(user);
     res.send(user);
@@ -18,8 +19,11 @@ app.get('/account/create/:uri/:name/:email/:password', (req,res)=>{
   //res.send('what!')
 });
 
-app.get('/account/all', (req,res)=>{
-  dal.all()
+app.get('/account/all/:uid', (req,res)=>{
+  // let uid = auth.authenticateToken(req.params.token);
+  // console.log(uid);
+  console.log(req.params.uid);
+  dal.all(req.params.uid)
   .then((docs) => {
     //console.log('Collection: ' + JSON.stringify(docs));
     res.send(docs);

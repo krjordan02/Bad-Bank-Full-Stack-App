@@ -28,7 +28,8 @@ function create(uid, name, email, password){
   })
 }
 
-function all(){
+function all(uid){
+  var user = '';
   return new Promise((resolve, reject) => {
     (async ()=> {
       try{
@@ -36,7 +37,12 @@ function all(){
         .collection('users')
         .find()
         .toArray();
-        resolve(customers);
+        customers.forEach(ele => {
+          if(ele.uid === uid){
+            user = ele;
+          }
+        });
+        resolve(user);
       }catch{
         reject('Failed to get documents!')
       }

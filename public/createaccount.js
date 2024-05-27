@@ -8,7 +8,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 function CreateAccount(){
   const [show, setShow]     = React.useState(true);
