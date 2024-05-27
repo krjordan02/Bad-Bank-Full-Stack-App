@@ -8,23 +8,21 @@ const client = new MongoClient(url);
 (async function run(){
   //connect to client and 'myProject' db
   await client.connect();
-  db = client.db('myProject');
+  db = client.db('bad_bank');
   console.log('Connected successfully to server')
 })();
 
-function create(name, email, password){
+function create(uid, name, email, password){
   return new Promise((resolve, reject) => {
     (()=> {
       const collection = db.collection('users');
-      const doc = {name, email, password, ballance: 0};
+      const doc = {uid, name, email, password, ballance: 0};
       try{
         let insert = collection.insertOne(doc);
         resolve(insert);
       }catch{
         reject('Failed to insert document!');
       }
-      
-      
       console.log('Inserted document');
     })()
   })

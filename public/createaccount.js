@@ -1,3 +1,15 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyDeDfK5AphB_FpNogTrJncd7CnGV-8cmMo",
+  authDomain: "bad-bank-d92f7.firebaseapp.com",
+  projectId: "bad-bank-d92f7",
+  storageBucket: "bad-bank-d92f7.appspot.com",
+  messagingSenderId: "386603581282",
+  appId: "1:386603581282:web:682d01fd892bae65ebb63b"
+};
+
+// Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
 function CreateAccount(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');
@@ -27,12 +39,23 @@ function CreateForm(props){
   const [name, setName]         = React.useState('');
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
-  const ctx = React.useContext(UserContext);  
 
-  function handle(){
-    console.log(name,email,password);
-    ctx.users.push({name,email,password});
-    props.setShow(false);
+  //create auth user and add user document to the DB
+  async function handle(){
+    var uid = '';
+    const auth  = firebase.auth();
+    const promise = auth.createUserWithEmailAndPassword(email,password)
+      .then(async (userCredential) => {
+        uid = await userCredential.user.uid;
+      }).then(() => {
+        const url = `account/create/${uid}/${name}/${email}/${password}/`;
+        (async () => {
+          var res = await fetch(url);
+          var data = await res.json();
+          props.setShow(false);
+        })();
+      })
+    
   }    
 
   return (<>

@@ -7,9 +7,10 @@ const dal = require('./dal.js')
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../src')));
 app.use(cors());
+//var user = React.useState();
 
-app.get('/account/create/:name/:email/:password', (req,res)=>{
-  dal.create(req.params.name, req.params.email, req.params.password)
+app.get('/account/create/:uri/:name/:email/:password', (req,res)=>{
+  dal.create(req.params.uri, req.params.name, req.params.email, req.params.password)
   .then((user) => {
     console.log(user);
     res.send(user);
@@ -20,8 +21,8 @@ app.get('/account/create/:name/:email/:password', (req,res)=>{
 app.get('/account/all', (req,res)=>{
   dal.all()
   .then((docs) => {
-    console.log('Collection: ' + JSON.stringify(docs));
-    res.send('Collection: ' + JSON.stringify(docs));
+    //console.log('Collection: ' + JSON.stringify(docs));
+    res.send(docs);
   })
 });
 
