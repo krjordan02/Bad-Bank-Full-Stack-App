@@ -10,9 +10,10 @@ This app was built for an assignment by MIT xPro, designed to improve my skills 
 
 1. Simply download the project folder to your local machine or fork the project.
 2. Navigate to the root folder within the terminal.
-3. Run <code>npm install</code> and <code>node index.js</code>.
-4. The project will then launch in your browser.
-5. (Public URL will soon be uploaded).
+3. Create a new docker container with mongoDB using <code>docker run -p 27017:27017 –name badbank -d mongo</code>
+4. Run <code>npm install</code> and <code>node index.js</code>.
+5. The project will then launch in your browser.
+6. (Public URL will soon be uploaded).
 
 <img src="SS.jpeg" width="400px"/>
 
