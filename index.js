@@ -30,7 +30,11 @@ app.get('/account/all/:uid', (req,res)=>{
   })
 });
 
+const sample = () => "Test";
+
 var port = 3000;
 app.listen(port, ()=>{
   console.log('Listening on port 3000!');
 });
+
+exports.sample = sample;
