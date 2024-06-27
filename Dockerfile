@@ -3,15 +3,11 @@ FROM node:18
 ENV PORT 3000
 
 #create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /app
 
-#install dependencies
-COPY package*.json /usr/src/app
+COPY index.js /app/index.js
+COPY auth.js /app/auth.js
+COPY dal.js /app/dal.js
+COPY public /app/public
+COPY package.json /app/package.json
 RUN npm install
-
-COPY . /usr/src/app
-
-CMD "node" "index.js"
-
-EXPOSE 3000
