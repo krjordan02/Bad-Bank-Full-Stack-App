@@ -29,8 +29,6 @@ function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const ctx = React.useContext(UserContext);  
-
   function handle(){
     const auth  = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(email, password)
@@ -45,23 +43,7 @@ function LoginForm(props){
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-      });
-    // const user = ctx.users.find((user) => user.email == email);
-    // console.log(user);
-    // console.log(email, password);
-    // if (!user) {
-    //   console.log('one')      
-    //   props.setStatus('fail!')      
-    //   return;      
-    // }
-    // if (user.password == password) {
-    //   console.log('two')            
-    //   props.setStatus('');
-    //   props.setShow(false);
-    //   return;      
-    // }
-    // console.log('three')          
-    // props.setStatus('fail!');        
+      });     
   }
 
 
@@ -82,6 +64,5 @@ function LoginForm(props){
       onChange={e => setPassword(e.currentTarget.value)}/><br/>
 
     <button type="submit" className="btn btn-primary" onClick={handle}>Login</button>
-   
   </>);
 }
