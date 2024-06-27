@@ -1,6 +1,29 @@
 function Balance(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');  
+  const [balance, setBalance] = React.useState('');  
+
+  React.useEffect(() => {
+    var uid = '';
+    const auth  = firebase.auth();
+    const user = firebase.auth().currentUser;
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        // User is signed in
+        uid = await user.uid;
+
+        //fetch all accounts from API
+        fetch(`/account/all/${uid}/`)
+          .then(response => response.json())
+          .then(data => {
+            setBalance(data.ballance);
+          })
+          .catch(rejected =>{
+            console.log(rejected);
+          })
+      }
+    })
+  }, []);
 
   return (
     <Card
@@ -8,7 +31,7 @@ function Balance(){
       header="Balance"
       status={status}
       body={show ?
-        <BalanceForm setShow={setShow} setStatus={setStatus}/> :
+        <BalanceForm setShow={setShow} setStatus={setStatus} balance={balance}/> :
         <BalanceMsg setShow={setShow}/>}
     />
   )
@@ -27,37 +50,11 @@ function BalanceMsg(props){
 }
 
 function BalanceForm(props){
-  const [email, setEmail]   = React.useState('');
-  const [balance, setBalance] = React.useState('');  
-  const ctx = React.useContext(UserContext);  
+  
+  const ctx = React.useContext(UserContext);
 
-  function handle(){
-    const user = ctx.users.find((user) => user.email == email);
-    if (!user) {
-      props.setStatus('fail!')      
-      return;      
-    }
-
-    setBalance(user.balance);
-    console.log(user);
-    props.setStatus('Your balance is: ' + user.balance);      
-    props.setShow(false);
-  }
-
-  return (<>
-
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/>
-
-    <button type="submit" 
-      className="btn btn-primary" 
-      onClick={handle}>
-        Check Balance
-    </button>
-
+  return (
+  <>
+    {props.balance}<br/>
   </>);
 }

@@ -8,17 +8,28 @@ const auth = require('./auth.js');
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '../src')));
 app.use(cors());
-//var user = React.useState();
 
+//create account
 app.get('/account/create/:uid/:name/:email/:password', (req,res)=>{
   dal.create(req.params.uid, req.params.name, req.params.email, req.params.password)
   .then((user) => {
     console.log(user);
     res.send(user);
   })
-  //res.send('what!')
 });
 
+//update balance
+app.get('/account/updateBalance/:uid/:newBalance/', (req,res)=>{
+  // let uid = auth.authenticateToken(req.params.token);
+  // console.log(uid);
+  dal.updateBalance(req.params.uid, req.params.newBalance)
+  .then((update) => {
+    //console.log('Collection: ' + JSON.stringify(docs));
+    res.send(update);
+  })
+});
+
+//get account info
 app.get('/account/all/:uid', (req,res)=>{
   // let uid = auth.authenticateToken(req.params.token);
   // console.log(uid);

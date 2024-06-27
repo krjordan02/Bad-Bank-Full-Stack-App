@@ -28,6 +28,26 @@ function create(uid, name, email, password){
   })
 }
 
+function updateBalance(uid, newBalance){
+  return new Promise((resolve, reject) => {
+    (()=> {
+      const collection = db.collection('users');
+      try{
+        let update = collection.updateOne(
+          {uid: uid},
+          {
+            $set: {'ballance': newBalance}
+          }
+        );
+        resolve(newBalance);
+      }catch{
+        reject('Failed to update balance!');
+      }
+      console.log('Updated balance');
+    })()
+  })
+}
+
 function all(uid){
   var user = '';
   return new Promise((resolve, reject) => {
@@ -53,4 +73,4 @@ function all(uid){
   })
 }
 
-module.exports = {create, all};
+module.exports = {create, updateBalance, all};

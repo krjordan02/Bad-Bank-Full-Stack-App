@@ -32,22 +32,36 @@ function LoginForm(props){
   const ctx = React.useContext(UserContext);  
 
   function handle(){
-    const user = ctx.users.find((user) => user.email == email);
-    console.log(user);
-    console.log(email, password);
-    if (!user) {
-      console.log('one')      
-      props.setStatus('fail!')      
-      return;      
-    }
-    if (user.password == password) {
-      console.log('two')            
-      props.setStatus('');
-      props.setShow(false);
-      return;      
-    }
-    console.log('three')          
-    props.setStatus('fail!');        
+    const auth  = firebase.auth();
+    const promise = auth.signInWithEmailAndPassword(email, password)
+      .then(async (userCredential) => {
+        // Signed in
+        var user = await userCredential.user;
+        console.log(user);
+        props.setStatus('');
+        props.setShow(false);
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+      });
+    // const user = ctx.users.find((user) => user.email == email);
+    // console.log(user);
+    // console.log(email, password);
+    // if (!user) {
+    //   console.log('one')      
+    //   props.setStatus('fail!')      
+    //   return;      
+    // }
+    // if (user.password == password) {
+    //   console.log('two')            
+    //   props.setStatus('');
+    //   props.setShow(false);
+    //   return;      
+    // }
+    // console.log('three')          
+    // props.setStatus('fail!');        
   }
 
 

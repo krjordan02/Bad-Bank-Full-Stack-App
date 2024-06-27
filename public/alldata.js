@@ -8,10 +8,8 @@ function AllData(){
     const user = firebase.auth().currentUser;
     auth.onAuthStateChanged(async (user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/v8/firebase.User
+        // User is signed in
         uid = await user.uid;
-        console.log(uid);
 
         //fetch all accounts from API
         fetch(`/account/all/${uid}/`)
@@ -23,9 +21,7 @@ function AllData(){
           .catch(rejected =>{
             console.log(rejected);
           })
-
       } else {
-        
       }
     })
 
