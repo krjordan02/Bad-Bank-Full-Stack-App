@@ -46,6 +46,6 @@ function LogoutForm(props){
   }
 
   return (<>
-    <button type="submit" className="btn btn-primary" onClick={handle}>Login</button>
+    <button type="submit" className="btn btn-primary" onClick={handle}>Logout</button>
   </>);
 }

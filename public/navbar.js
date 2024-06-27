@@ -1,11 +1,23 @@
 function NavBar(){
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState('');
 
   React.useEffect(() => {
     const auth  = firebase.auth();
     const user = firebase.auth().currentUser;
     auth.onAuthStateChanged(async (user) => {
+      //fetch all accounts from API
       if (user) {
+        let uid = await user.uid;
+        fetch(`/account/all/${uid}/`)
+          .then(response => response.json())
+          .then(data => {
+            setEmail(data.email);
+          })
+          .catch(rejected =>{
+            console.log(rejected);
+          })
+
         setLoggedIn(true);
       } else {
         setLoggedIn(false);
@@ -15,6 +27,7 @@ function NavBar(){
 
   return(
 
+    <>
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href="#">BadBank</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +59,8 @@ function NavBar(){
         </ul>
       </div>
     </nav>
+    </>
+    
 
   );
 }
