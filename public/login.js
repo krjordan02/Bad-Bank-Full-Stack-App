@@ -3,14 +3,18 @@ function Login(){
   const [status, setStatus] = React.useState('');    
 
   return (
-    <Card
-      bgcolor="light"
-      header="Login"
-      status={status}
-      body={show ? 
-        <LoginForm setShow={setShow} setStatus={setStatus}/> :
-        <LoginMsg setShow={setShow} setStatus={setStatus}/>}
-    />
+    <>
+      <Card
+        bgcolor="light"
+        header="Login"
+        status={status}
+        body={show ? 
+          <LoginForm setShow={setShow} setStatus={setStatus}/> :
+          <LoginMsg setShow={setShow} setStatus={setStatus}/>}
+      />
+      <GoogleLogin/>
+    </>
+
   ) 
 }
 
@@ -65,4 +69,40 @@ function LoginForm(props){
 
     <button type="submit" className="btn btn-primary" onClick={handle}>Login</button>
   </>);
+}
+
+function GoogleLogin(props){
+
+  function handle(){
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    firebase.auth()
+    .signInWithPopup(provider)
+    .then((result) => {
+      /** @type {firebase.auth.OAuthCredential} */
+      var credential = result.credential;
+
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
+
+  return (<>
+
+    <button type="submit" className="btn btn-primary" onClick={handle}>Login</button>
+  </>);
+
 }

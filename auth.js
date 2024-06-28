@@ -13,6 +13,7 @@ function authenticateToken(idToken){
   })
   .catch((error) => {
     // Handle error
+    console.log(error);
   });
 }
 
