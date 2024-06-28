@@ -5,7 +5,7 @@ ENV PORT 3000
 #create app directory
 WORKDIR /app
 
-COPY package.json /app
+COPY package*.json /app
 COPY . /app
 
 RUN npm i express
