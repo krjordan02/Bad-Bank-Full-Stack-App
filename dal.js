@@ -1,7 +1,7 @@
 const { MongoClient} = require("mongodb");
 //use in production
-const url            = 'mongodb://mongo:27017/';
-//const url            = 'mongodb://localhost:27017/';
+// const url            = 'mongodb://mongo:27017/';
+const url            = 'mongodb://localhost:27017/';
 let db               = null;
 
 //create mongo client

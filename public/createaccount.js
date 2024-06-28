@@ -13,25 +13,38 @@ firebase.initializeApp(firebaseConfig);
 function CreateAccount(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');
+  const [error, setError]   = React.useState(false);
+  const [errorMessage, setErrorMessage]   = React.useState('');
 
   return (
+    <>
     <Card
       bgcolor="light"
       header="Create Account"
       status={status}
       body={show ? 
-        <CreateForm setShow={setShow}/> : 
+        <CreateForm setShow={setShow} setErrorMessage={setErrorMessage} setError={setError}/> : 
         <CreateMsg setShow={setShow}/>}
     />
+    {error && <Message
+        bgcolor="danger"
+        status={status}
+        body={
+          <Error error={error} errorMessage={errorMessage}/>
+        }
+      />}
+    </>
   )
 }
 
 function CreateMsg(props){
   return(<>
     <h5>Success</h5>
-    <button type="submit" 
-      className="btn btn-primary" 
-      onClick={() => props.setShow(true)}>Add another account</button>
+    <a href="#/deposit/">
+      <button type="submit" 
+        className="btn btn-primary" 
+        onClick={() => props.setShow(true)}>Deposit</button>
+    </a>
   </>);
 }
 
@@ -53,8 +66,20 @@ function CreateForm(props){
           var res = await fetch(url);
           var data = await res.json();
           props.setShow(false);
+          props.setError(false);
         })();
       })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage)
+        props.setError(true);
+        if(errorCode == "auth/internal-error"){
+          props.setErrorMessage("Invalid username or password");
+        }else{
+          props.setErrorMessage(errorMessage);
+        }
+      });
     
   }    
 
@@ -85,5 +110,12 @@ function CreateForm(props){
       className="btn btn-primary" 
       onClick={handle}>Create Account</button>
 
+  </>);
+}
+
+function Error(props){
+  return(<>
+    <h5>Error</h5>
+    <p>{props.errorMessage}</p>
   </>);
 }
