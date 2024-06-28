@@ -8,7 +8,6 @@ services:
     restart: always
   web:
     build: .
-    image: keeganj/bad-bank-docker
     ports:
       - "3000:3000"
     links:
