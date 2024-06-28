@@ -59,6 +59,9 @@ function NavBar(){
         </ul>
       </div>
     </nav>
+    <div style={{width: "100%", height: "24px"}}>
+      {loggedIn && <p style={{float: "right", padding: "5px", margin: "0"}}>{email}</p>}
+    </div>
     </>
     
 
