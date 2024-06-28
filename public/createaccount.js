@@ -52,16 +52,32 @@ function CreateForm(props){
   const [name, setName]         = React.useState('');
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [admin, setAdmin] = React.useState('');
+  const [adminCheck, setAdminCheck] = React.useState(false);
 
   //create auth user and add user document to the DB
   async function handle(){
+    let isAdmin = false;
+    if(admin !== '' && admin !== "secret"){
+      //fail
+      props.setError(true);
+      props.setErrorMessage("Invalid admin key.");
+      return
+    }else if(admin !== '' && admin === "secret"){
+      //pass
+      props.setError(false);
+      isAdmin = true;
+    }else{
+      props.setError(false);
+      isAdmin = false;
+    }
     var uid = '';
     const auth  = firebase.auth();
     const promise = auth.createUserWithEmailAndPassword(email,password)
       .then(async (userCredential) => {
         uid = await userCredential.user.uid;
       }).then(() => {
-        const url = `account/create/${uid}/${name}/${email}/${password}/`;
+        const url = `account/create/${uid}/${name}/${email}/${password}/${isAdmin}/`;
         (async () => {
           var res = await fetch(url);
           var data = await res.json();
@@ -72,7 +88,6 @@ function CreateForm(props){
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(errorMessage)
         props.setError(true);
         if(errorCode == "auth/internal-error"){
           props.setErrorMessage("Invalid username or password");
@@ -105,6 +120,25 @@ function CreateForm(props){
       placeholder="Enter password" 
       value={password} 
       onChange={e => setPassword(e.currentTarget.value)}/><br/>
+    
+    
+    <input type="checkbox" 
+      value={adminCheck}
+      onClick={e => setAdminCheck(!adminCheck)}
+      style={{marginRight: "5px"}}/>
+      Admin<br/>
+    <br/>
+
+    {adminCheck && 
+    <>
+      Admin key<br/>
+      <input type="password" 
+        className="form-control" 
+        placeholder="Admin key: secret" 
+        value={admin} 
+        onChange={e => setAdmin(e.currentTarget.value)}/><br/>
+    </>
+    }
 
     <button type="submit" 
       className="btn btn-primary" 

@@ -11,7 +11,7 @@ function Card(props){
   }
 
   return (
-    <div className={classes()} style={{maxWidth: "35rem", minWdth: "", margin: "auto", width: "85%"}}>
+    <div className={classes()} style={{maxWidth: "35rem", minWdth: "", margin: "auto", width: "85%", boxShadow: "rgba(0, 0, 0, 0.25) 0px 5px 15px"}}>
       <div className="card-header">{props.header}</div>
       <div className="card-body">
         {props.title && (<h5 className="card-title">{props.title}</h5>)}
@@ -31,7 +31,7 @@ function Message(props){
   }
 
   return (
-    <div className={classes()} style={{maxWidth: "35rem", minWdth: "", margin: "auto", width: "85%"}}>
+    <div className={classes()} style={{maxWidth: "35rem", minWdth: "", margin: "auto", width: "85%", boxShadow: "rgba(0, 0, 0, 0.25) 0px 5px 15px"}}>
       <div className="card-body">
         {props.title && (<h5 className="card-title">{props.title}</h5>)}
         {props.text && (<p className="card-text">{props.text}</p>)}

@@ -3,6 +3,8 @@ function Withdraw(){
   const [status, setStatus] = React.useState('');
   const [balance, setBalance] = React.useState('');
   const [uid, setUid] = React.useState('');
+  const [error, setError]   = React.useState(false);
+  const [errorMessage, setErrorMessage]   = React.useState('');
 
   //Get current balance
   React.useEffect(() => {
@@ -19,7 +21,8 @@ function Withdraw(){
         fetch(`/account/all/${uid}/`)
           .then(response => response.json())
           .then(data => {
-            setBalance(data.ballance);
+            let balance = (Math.round(data.ballance * 100) / 100).toFixed(2);
+            setBalance(balance);
           })
           .catch(rejected =>{
             console.log(rejected);
@@ -29,14 +32,23 @@ function Withdraw(){
   }, []);
 
   return (
-    <Card
-      bgcolor="light"
-      header="Withdraw"
-      status={status}
-      body={show ? 
-        <WithdrawForm setShow={setShow} setStatus={setStatus} setBalance={setBalance} uid={uid} balance={balance}/> :
-        <WithdrawMsg setShow={setShow}/>}
-    />
+    <>
+      <Card
+        bgcolor="light"
+        header="Withdraw"
+        status={status}
+        body={show ? 
+          <WithdrawForm setShow={setShow} setStatus={setStatus} setBalance={setBalance} uid={uid} balance={balance} setErrorMessage={setErrorMessage} setError={setError}/> :
+          <WithdrawMsg setShow={setShow}/>}
+      />
+      {error && <Message
+        bgcolor="danger"
+        status={status}
+        body={
+          <Error error={error} errorMessage={errorMessage}/>
+        }
+      />}
+    </>
   )
 }
 
@@ -59,23 +71,29 @@ function WithdrawForm(props){
     var withdraw = amount;
     var currentBalance = Number(props.balance);
     var newBalance = Number(currentBalance) - Number(withdraw);
-    fetch(`/account/updateBalance/${uid}/${newBalance}`)
+    if(newBalance > 0){
+      fetch(`/account/updateBalance/${uid}/${newBalance}`)
       .then(response => 
         console.log(response)
       )
       .catch(rejected =>{
         console.log(rejected);
       })
-    props.setBalance(newBalance)
-    props.setStatus(''); 
-    props.setShow(false);
+      props.setBalance(newBalance)
+      props.setStatus(''); 
+      props.setShow(false);
+      props.setError(false);
+    }else{
+      props.setError(true);
+      props.setErrorMessage("Withdraw amount must be lower than account balance.");
+    }
   }
 
 
   return(<>
 
     Balance<br/>
-    {props.balance}<br/>
+    <h3>${props.balance}</h3>
     <br/>
 
     Amount<br/>
@@ -91,5 +109,12 @@ function WithdrawForm(props){
         Withdraw
     </button>
 
+  </>);
+}
+
+function Error(props){
+  return(<>
+    <h5>Error</h5>
+    <p>{props.errorMessage}</p>
   </>);
 }

@@ -14,11 +14,11 @@ const client = new MongoClient(url);
   console.log('Connected successfully to server')
 })();
 
-function create(uid, name, email, password){
+function create(uid, name, email, password, isAdmin){
   return new Promise((resolve, reject) => {
     (()=> {
       const collection = db.collection('users');
-      const doc = {uid, name, email, password, ballance: 0};
+      const doc = {uid, name, email, password, isAdmin, ballance: 0};
       try{
         let insert = collection.insertOne(doc);
         resolve(insert);

@@ -10,8 +10,8 @@ app.use(express.static(path.join(__dirname, '../src')));
 app.use(cors());
 
 //create account
-app.get('/account/create/:uid/:name/:email/:password', (req,res)=>{
-  dal.create(req.params.uid, req.params.name, req.params.email, req.params.password)
+app.get('/account/create/:uid/:name/:email/:password/:isAdmin', (req,res)=>{
+  dal.create(req.params.uid, req.params.name, req.params.email, req.params.password, req.params.isAdmin)
   .then((user) => {
     console.log(user);
     res.send(user);

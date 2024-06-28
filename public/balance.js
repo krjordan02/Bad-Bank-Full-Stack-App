@@ -16,7 +16,8 @@ function Balance(){
         fetch(`/account/all/${uid}/`)
           .then(response => response.json())
           .then(data => {
-            setBalance(data.ballance);
+            let balance = (Math.round(data.ballance * 100) / 100).toFixed(2);
+            setBalance(balance);
           })
           .catch(rejected =>{
             console.log(rejected);
@@ -30,23 +31,11 @@ function Balance(){
       bgcolor="light"
       header="Balance"
       status={status}
-      body={show ?
-        <BalanceForm setShow={setShow} setStatus={setStatus} balance={balance}/> :
-        <BalanceMsg setShow={setShow}/>}
+      body=
+        <BalanceForm setShow={setShow} setStatus={setStatus} balance={balance}/>
     />
   )
 
-}
-
-function BalanceMsg(props){
-  return(<>
-    <h5>Success</h5>
-    <button type="submit" 
-      className="btn btn-light" 
-      onClick={() => props.setShow(true)}>
-        Check balance again
-    </button>
-  </>);
 }
 
 function BalanceForm(props){
@@ -55,6 +44,6 @@ function BalanceForm(props){
 
   return (
   <>
-    {props.balance}<br/>
+    <h3>${props.balance}</h3>
   </>);
 }

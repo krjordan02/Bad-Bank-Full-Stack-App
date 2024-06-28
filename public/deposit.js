@@ -19,7 +19,8 @@ function Deposit(){
         fetch(`/account/all/${uid}/`)
           .then(response => response.json())
           .then(data => {
-            setBalance(data.ballance);
+            let balance = (Math.round(data.ballance * 100) / 100).toFixed(2);
+            setBalance(balance);
           })
           .catch(rejected =>{
             console.log(rejected);
@@ -57,24 +58,29 @@ function DepositForm(props){
   async function handle(){
     var uid = props.uid
     var deposit = amount;
-    var currentBalance = Number(props.balance);
-    var newBalance = Number(currentBalance) + Number(deposit);
-    fetch(`/account/updateBalance/${uid}/${newBalance}`)
-      .then(response => 
-        console.log(response)
-      )
-      .catch(rejected =>{
-        console.log(rejected);
-      })
-    props.setBalance(newBalance)
-    props.setStatus(''); 
-    props.setShow(false);
+    if(Number(desposit) !== NaN){
+      var currentBalance = Number(props.balance);
+      var newBalance = Number(currentBalance) + Number(deposit);
+      fetch(`/account/updateBalance/${uid}/${newBalance}`)
+        .then(response => 
+          console.log(response)
+        )
+        .catch(rejected =>{
+          console.log(rejected);
+        })
+      props.setBalance(newBalance)
+      props.setStatus(''); 
+      props.setShow(false);
+    }else{
+      console.log("NOT A NUMBER")
+    }
+    
   }
 
   return(<>
 
     Balance<br/>
-    {props.balance}<br/>
+    <h3>${props.balance}</h3>
     <br/>
     Deposit amount<br/>
     <input type="number" 
