@@ -3,6 +3,8 @@ function AllData(){
   const [data, setData] = React.useState('');
   const [stack, setStack] = React.useState();
   const [isAdmin, setIsAdmin] = React.useState(false);
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   React.useEffect(() => {
     var uid = '';
@@ -17,8 +19,8 @@ function AllData(){
         fetch(`/account/all/allData/`)
           .then(response => response.json())
           .then(data => {
-            console.log(data.isAdmin)
-            setIsAdmin(false);
+            console.log(Object.values(data[1])[5])
+            setIsAdmin(true);
             let newData = [];
             data.forEach(acct => newData.push(Object.values(acct).slice(2)));
 
@@ -28,9 +30,9 @@ function AllData(){
               <div>
                 {newData.map((items, index) => {
                   return (
-                    <div style={{display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)", borderTop: "1px solid grey"}}>
+                    <div key={Math.random(10)} style={{display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)", borderTop: "1px solid grey"}}>
                       {items.map((subItems, sIndex) => {
-                        return <div style={{padding: "10px"}}> {subItems} </div>;
+                        return <div style={{padding: "10px"}} key={Math.random(10)}> {subItems} </div>;
                       })}
                     </div>
                   );
@@ -45,37 +47,52 @@ function AllData(){
       }
     })
   }, []);
-  if(isAdmin === false){
-    return (
-      <>
-        <DataContainer
-          bgcolor="light"
-          header="All account data"
-          body=
-            {stack}
-        />
-      </>
-    );
-  }else{
-    return (
-      <>
-        <Message
-        bgcolor="danger"
-        status={status}
-        body={
-          <>
-            <h5>Not an admin</h5>
-          </>
-        }/>
-      </>
-    );
-  }
+
+  const auth  = firebase.auth();
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      let uid = await user.uid;
+      fetch(`/account/all/${uid}/`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.isAdmin)
+          if(Boolean(data.isAdmin) === true){
+            console.log("IS ADMIN")
+            loadAdmin(stack);
+          }else{
+            return (
+              <>
+                <Message
+                bgcolor="danger"
+                status={status}
+                body={
+                  <>
+                    <h5>Not an admin</h5>
+                  </>
+                }/>
+              </>
+            );
+          }
+        })
+        .catch(rejected =>{
+          console.log(rejected);
+        })
+    }
+  })
 }
 
-function AccountData(props){
-  let data = props.data;
-  console.log(data[0].name)
-
+function loadAdmin(stack){
+  console.log("TRYING TO LOAD")
+  return (
+              <>
+                <DataContainer
+                  bgcolor="light"
+                  header="All account data"
+                  body=
+                    {stack}
+                />
+              </>
+            );
 }
 
 function Error(props){

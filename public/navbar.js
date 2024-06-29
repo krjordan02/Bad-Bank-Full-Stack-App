@@ -2,32 +2,41 @@ function NavBar(){
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [isAdmin, setIsAdmin] = React.useState(false);
-  let admin = false;
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   React.useEffect(() => {
     const auth  = firebase.auth();
     const user = firebase.auth().currentUser;
+
     auth.onAuthStateChanged(async (user) => {
       //fetch accounts from API
+      // let temp;
       if (user) {
         let uid = await user.uid;
+        console.log("trying to fetch pre")
         fetch(`/account/all/${uid}/`)
           .then(response => response.json())
           .then(data => {
             setEmail(data.email);
+            console.log(data.isAdmin)
+            setIsAdmin(data.isAdmin)
+            console.log(isAdmin)
+            
           })
           .catch(rejected =>{
             console.log(rejected);
           })
-        setIsAdmin(true)
+        
         setLoggedIn(true);
       } else {
+
         setLoggedIn(false);
-        setIsAdmin(false)
+        setIsAdmin(false);
       }
     })
+    
   }, []);
-  
 
   return(
 
@@ -54,8 +63,8 @@ function NavBar(){
           {loggedIn && <li className="nav-item">
             <a className="nav-link" href="#/balance/">Balance</a>
           </li>}
-          {isAdmin == true && <li className="nav-item">
-            <a className="nav-link" href="#/alldata/">AllData</a>
+          {isAdmin === "true" && <li className="nav-item">
+            <a className="nav-link" href="#/alldata/">AllData {isAdmin.toString()}</a>
           </li>}
           {loggedIn && <li className="nav-item">
             <a className="nav-link" href="#/logout/">Logout</a>

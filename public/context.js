@@ -59,7 +59,7 @@ function DataContainer(props){
       <div className="card-header">{props.header}</div>
       <div style={{display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)"}}>
         {items.map((subItems, sIndex) => {
-          return <div style={{padding: "10px"}}> {subItems} </div>;
+          return <div key={Math.random(10)} style={{padding: "10px"}}> {subItems} </div>;
         })}
       </div>
       <div className="card-body">
