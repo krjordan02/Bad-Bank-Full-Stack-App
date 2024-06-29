@@ -1,12 +1,14 @@
 function NavBar(){
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [email, setEmail] = React.useState('');
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  let admin = false;
 
   React.useEffect(() => {
     const auth  = firebase.auth();
     const user = firebase.auth().currentUser;
     auth.onAuthStateChanged(async (user) => {
-      //fetch all accounts from API
+      //fetch accounts from API
       if (user) {
         let uid = await user.uid;
         fetch(`/account/all/${uid}/`)
@@ -17,13 +19,15 @@ function NavBar(){
           .catch(rejected =>{
             console.log(rejected);
           })
-
+        setIsAdmin(true)
         setLoggedIn(true);
       } else {
         setLoggedIn(false);
+        setIsAdmin(false)
       }
     })
   }, []);
+  
 
   return(
 
@@ -50,7 +54,7 @@ function NavBar(){
           {loggedIn && <li className="nav-item">
             <a className="nav-link" href="#/balance/">Balance</a>
           </li>}
-          {loggedIn && <li className="nav-item">
+          {isAdmin == true && <li className="nav-item">
             <a className="nav-link" href="#/alldata/">AllData</a>
           </li>}
           {loggedIn && <li className="nav-item">

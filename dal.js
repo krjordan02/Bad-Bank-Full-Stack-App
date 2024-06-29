@@ -59,12 +59,16 @@ function all(uid){
         .collection('users')
         .find()
         .toArray();
-        customers.forEach(ele => {
-          if(ele.uid === uid){
-            user = ele;
-          }
-        });
-        resolve(user);
+        if(uid !== "allData"){
+          customers.forEach(ele => {
+            if(ele.uid === uid){
+              user = ele;
+            }
+          })
+          resolve(user);
+        }else{
+          resolve(customers);
+        }
       }catch{
         reject('Failed to get documents!')
       }
