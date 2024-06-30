@@ -58,7 +58,7 @@ function NavBar(){
             <a className="nav-link" href="#/balance/">Balance</a>
           </li>}
           {isAdmin === "true" && <li className="nav-item">
-            <a className="nav-link" href="#/alldata/">AllData {isAdmin.toString()}</a>
+            <a className="nav-link" href="#/alldata/">All Account Data</a>
           </li>}
           {loggedIn && <li className="nav-item">
             <a className="nav-link" href="#/logout/">Logout</a>
