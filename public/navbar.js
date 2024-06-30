@@ -20,8 +20,19 @@ function NavBar(){
             setEmail(data.email);
             setIsAdmin(data.isAdmin)
           })
-          .catch(rejected =>{
+          .catch(rejected => {
             console.log(rejected);
+            setTimeout(() => {
+              fetch(`/account/all/${uid}/`)
+                .then(response => response.json())
+                .then(data => {
+                  setEmail(data.email);
+                  setIsAdmin(data.isAdmin)
+                })
+                .catch(rejected => {
+                  console.log(rejected);
+                }) 
+            }, 1000)
           })
         setLoggedIn(true);
       } else {
