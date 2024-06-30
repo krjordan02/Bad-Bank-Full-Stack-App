@@ -14,23 +14,17 @@ function NavBar(){
       // let temp;
       if (user) {
         let uid = await user.uid;
-        console.log("trying to fetch pre")
         fetch(`/account/all/${uid}/`)
           .then(response => response.json())
           .then(data => {
             setEmail(data.email);
-            console.log(data.isAdmin)
             setIsAdmin(data.isAdmin)
-            console.log(isAdmin)
-            
           })
           .catch(rejected =>{
             console.log(rejected);
           })
-        
         setLoggedIn(true);
       } else {
-
         setLoggedIn(false);
         setIsAdmin(false);
       }
