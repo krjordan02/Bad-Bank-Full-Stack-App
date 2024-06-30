@@ -58,9 +58,10 @@ function DepositForm(props){
   async function handle(){
     var uid = props.uid
     var deposit = amount;
-    if(Number(desposit) !== NaN){
+    if(Number(deposit) !== NaN){
       var currentBalance = Number(props.balance);
       var newBalance = Number(currentBalance) + Number(deposit);
+      newBalance = (Math.round(newBalance * 100) / 100).toFixed(2)
       fetch(`/account/updateBalance/${uid}/${newBalance}`)
         .then(response => 
           console.log(response)

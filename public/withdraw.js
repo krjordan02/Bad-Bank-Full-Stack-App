@@ -71,6 +71,7 @@ function WithdrawForm(props){
     var withdraw = amount;
     var currentBalance = Number(props.balance);
     var newBalance = Number(currentBalance) - Number(withdraw);
+    newBalance = (Math.round(newBalance * 100) / 100).toFixed(2)
     if(newBalance > 0){
       fetch(`/account/updateBalance/${uid}/${newBalance}`)
       .then(response => 
