@@ -112,7 +112,7 @@ function LoginForm(props){
     className="btn btn-primary" 
     onClick={handleGoogle} 
     style={{marginLeft: "10px"}}
-    >Login with Google</button>
+    >Login with <img src={"google_logo.png"} style={{width: "25px"}}/></button>
 
   </>);
 }

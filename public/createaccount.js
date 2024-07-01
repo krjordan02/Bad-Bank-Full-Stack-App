@@ -194,7 +194,7 @@ function CreateForm(props){
       className="btn btn-primary" 
       onClick={handleGoogle}
       style={{marginLeft: "10px"}}
-      >Create account with Google</button>
+      >Create account with <img src={"google_logo.png"} style={{width: "25px"}}/></button>
 
   </>);
 }

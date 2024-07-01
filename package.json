@@ -22,7 +22,9 @@
     "firebase": "^10.12.1",
     "firebase-admin": "^12.1.1",
     "mongo": "^0.1.0",
-    "mongodb": "^6.6.2"
+    "mongodb": "^6.6.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "jest": "^29.7.0"
