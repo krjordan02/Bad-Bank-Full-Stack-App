@@ -48,8 +48,28 @@ function LoginForm(props){
     const promise = auth.signInWithEmailAndPassword(email, password)
       .then(async (userCredential) => {
         // Signed in
-        var user = await userCredential.user;
-        console.log(user);
+        props.setStatus('');
+        props.setShow(false);
+        props.setError(false);
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        props.setError(true);
+        if(errorCode == "auth/internal-error"){
+          props.setErrorMessage("Invalid username or password");
+        }else{
+          props.setErrorMessage(errorMessage);
+        }
+      });
+  }
+
+  function handleGoogle(){
+    var provider = new firebase.auth.GoogleAuthProvider();
+    const auth  = firebase.auth();
+    const promise = auth.signInWithPopup(provider)
+      .then(async (result) => {
+        // Signed in
         props.setStatus('');
         props.setShow(false);
         props.setError(false);
@@ -83,7 +103,17 @@ function LoginForm(props){
       value={password} 
       onChange={e => setPassword(e.currentTarget.value)}/><br/>
 
-    <button type="submit" className="btn btn-primary" onClick={handle}>Login</button>
+    <button type="submit" 
+    className="btn btn-primary" 
+    onClick={handle}
+    >Login</button>
+
+    <button type="submit" 
+    className="btn btn-primary" 
+    onClick={handleGoogle} 
+    style={{marginLeft: "10px"}}
+    >Login with Google</button>
+
   </>);
 }
 

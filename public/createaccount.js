@@ -96,8 +96,53 @@ function CreateForm(props){
           props.setErrorMessage(errorMessage);
         }
       });
-    
-  }    
+  }
+
+  async function handleGoogle(){
+    var provider = new firebase.auth.GoogleAuthProvider();
+    let isAdmin = false;
+    if(admin !== '' && admin !== "secret"){
+      //fail
+      props.setError(true);
+      props.setErrorMessage("Invalid admin key.");
+      return
+    }else if(admin !== '' && admin === "secret"){
+      //pass
+      props.setError(false);
+      isAdmin = true;
+    }else{
+      props.setError(false);
+      isAdmin = false;
+    }
+    var uid = '';
+    const auth  = firebase.auth();
+    const promise = auth.signInWithPopup(provider)
+      .then(async (result) => {
+        let uid = result.user.uid
+        let name = result.additionalUserInfo.profile.name
+        let email = result.additionalUserInfo.profile.email
+        console.log(uid + ", " + name + ", " + email)
+        const url = `account/create/${uid}/${name}/${email}/${null}/${isAdmin}/`;
+        (async () => {
+          var res = await fetch(url);
+          var data = await res.json();
+          props.setShow(false);
+          props.setError(false);
+        })();
+        
+        //uid = await userCredential.user.uid;
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        props.setError(true);
+        if(errorCode == "auth/internal-error"){
+          props.setErrorMessage("Invalid username or password");
+        }else{
+          props.setErrorMessage(errorMessage);
+        }
+      });
+  }   
 
   return (<>
 
@@ -144,6 +189,12 @@ function CreateForm(props){
     <button type="submit" 
       className="btn btn-primary" 
       onClick={handle}>Create Account</button>
+    
+    <button type="submit" 
+      className="btn btn-primary" 
+      onClick={handleGoogle}
+      style={{marginLeft: "10px"}}
+      >Create account with Google</button>
 
   </>);
 }
