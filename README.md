@@ -3,8 +3,12 @@
 ## Description
 
 A full stack banking application created using the MERN stack. User are able to create accounts or login 
-to deposit, withdraw, check balances, or even check all account balances, if giving admin permissions.  
-This app was built for an assignment by MIT xPro, designed to improve my skills in building full stack applications. 
+to deposit, withdraw, check balances, or check all account information with admin permissions.  
+This app was built for an assignment with MIT xPro, designed to improve my skills in building full stack applications. 
+
+## Website
+
+[Link](http://167.71.244.198:3000/#/)
 
 ## Installation
 
@@ -32,7 +36,7 @@ This app was built for an assignment by MIT xPro, designed to improve my skills 
 
 ## Future Improvements
 
-Security will be enhanced by authenticating users with json web tokens.
+Added admin capabilities.
 UI style improvements will be made. 
 
 ## MIT License
