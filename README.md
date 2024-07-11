@@ -8,7 +8,7 @@ This app was built for an assignment with MIT xPro, designed to improve my skill
 
 ## Website
 
-[Link](http://167.71.244.198:3000/#/)
+[BadBank](http://167.71.244.198:3000/#/)
 
 ## Installation
 
@@ -23,11 +23,13 @@ This app was built for an assignment with MIT xPro, designed to improve my skill
 
 ## Stack
 
-- MongoDB
-- Express
-- React
 - Node
+- React
+- Express
+- MongoDB
 - Firebase
+- Docker
+- Hosting via DigitalOcean
 
 ## Features
 
