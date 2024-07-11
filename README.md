@@ -33,13 +33,15 @@ This app was built for an assignment with MIT xPro, designed to improve my skill
 
 ## Features
 
-- One time sign in using firebase
-- Admin access
+- One time sign in using firebase authentication for email/password & Google.
+- Admin access to all user information.
+- Deposit/withdrawl
 
 ## Future Improvements
 
-Added admin capabilities.
-UI style improvements will be made. 
+Additional admin capabilities including user information modification.
+Users will be capable of creating and maintaining multiple accounts. 
+Additional UI style improvements. 
 
 ## MIT License
 
